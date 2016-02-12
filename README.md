@@ -1,16 +1,16 @@
 # AWS EC2 Lister
 
-This is a utility program designed to transform json output from `aws ec2 describe-instances` 
+This is a utility program designed to transform json output from `aws ec2 describe-instances`
 and show very brief information about the ec2 name (from tag), instance ID, private IP, and public IP.
 
 ## How to build a binary for my platform?
 
-Checkout the syntax required for `go build`. 
+Checkout the syntax required for `go build`.
 
 An example build for Darwin would look like this:
 
    ```bash
-   GOOS=darwin; GOARCH=386; go build -o lister-darwin
+   GOOS=darwin; GOARCH=386; go build -o darwin-ec2-lister
    ```
 
 ## How to contribute?
