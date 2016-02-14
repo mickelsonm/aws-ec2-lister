@@ -17,6 +17,10 @@ An example build for Darwin would look like this:
 
 Once the binary is built, I upload the binary up to an S3 bucket.
 
+    aws s3 cp darwin-ec2-lister s3://my-executables/
+
+>>Note: Both arguments should match the installer file.
+
 Next, I give users the `install-example.sh` script, which they copy to their
 machine, rename it if they want to, give it execute permission, and just run it.
 
