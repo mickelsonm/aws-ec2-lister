@@ -12,34 +12,25 @@ func main() {
 
 	err := json.NewDecoder(os.Stdin).Decode(&resp)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	showName := func(tags []EC2InstanceTag) string {
-		if len(tags) > 0 {
-			for _, tag := range tags {
-				if tag.Key == "Name" {
-					return tag.Value
-				}
-			}
-		}
-		return "---"
+		log.Fatal(fmt.Errorf("error reading json string: %s", err))
 	}
 
 	var output string
 	for _, res := range resp.Reservations {
 		if output == "" {
-			output = fmt.Sprintf("%30s %16s %16s %16s\n\n",
+			output = fmt.Sprintf("%30s%14s%11s%16s%18s\n\n",
 				"Server",
 				"ID",
+				"State",
 				"Private IP",
 				"Public IP",
 			)
 		}
 		for _, inst := range res.Instances {
-			output += fmt.Sprintf("%30s %16s %16s %16s\n",
-				showName(inst.Tags),
+			output += fmt.Sprintf("%30s%14s%11s%16s%18s\n",
+				getInstanceNameFromTags(inst.Tags),
 				inst.ID,
+				inst.State.Name,
 				inst.PrivateIP,
 				inst.PublicIP,
 			)
@@ -49,6 +40,18 @@ func main() {
 	if output != "" {
 		fmt.Println(output)
 	}
+}
+
+//getInstanceNameFromTags ...
+func getInstanceNameFromTags(tags []EC2InstanceTag) string {
+	if len(tags) > 0 {
+		for _, tag := range tags {
+			if tag.Key == "Name" {
+				return tag.Value
+			}
+		}
+	}
+	return "---"
 }
 
 //EC2Response ...
@@ -67,6 +70,12 @@ type EC2Instance struct {
 	PrivateIP string           `json:"PrivateIpAddress"`
 	PublicIP  string           `json:"PublicIpAddress"`
 	Tags      []EC2InstanceTag `json:"Tags"`
+	State     EC2InstanceState `json:"State"`
+}
+
+//EC2InstanceState ...
+type EC2InstanceState struct {
+	Name string `json:"Name"`
 }
 
 //EC2InstanceTag ...
