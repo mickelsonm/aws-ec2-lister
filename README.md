@@ -13,7 +13,9 @@ An example build for Darwin would look like this:
    GOOS=darwin; GOARCH=386; go build -o darwin-ec2-lister
    ```
 
-## How do I deploy/administrate it?
+>>Note: I could also target linux and windows platforms. Go rocks!
+
+## How do I deploy and administrate this utility?
 
 Once the binary is built, I upload the binary up to an S3 bucket.
 
@@ -29,6 +31,8 @@ machine, rename it if they want to, give it execute permission, and just run it.
 To make life easier...I setup an alias for this in my `.bash_profile` file:
 
     alias aws-instance-list='. ~/bin/aws-instance-lister.sh'
+
+>>Note: In this example, I have a /user/bin/ way of organizing my scripts and I just renamed the script to be aws-instance-lister.sh.
 
 On any updates to the lister...all the user has to run is and they get the latest:
 
