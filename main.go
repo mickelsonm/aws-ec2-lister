@@ -46,7 +46,10 @@ func main() {
 func getInstanceNameFromTags(tags []EC2InstanceTag) string {
 	if len(tags) > 0 {
 		for _, tag := range tags {
-			if tag.Key == "Name" {
+			switch tag.Key {
+			case "Name":
+				fallthrough
+			case "aws:autoscaling:groupName":
 				return tag.Value
 			}
 		}
